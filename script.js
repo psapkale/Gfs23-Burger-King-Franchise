@@ -3,6 +3,7 @@ const fries = document.getElementById("fries");
 const drink = document.getElementById("drink");
 const result = document.getElementById("result");
 const orderId = document.getElementById("orderId");
+const button = document.querySelector("button");
 
 async function placeOrder(url, alt, delay) {
    const img = document.createElement("img");
@@ -19,6 +20,7 @@ async function placeOrder(url, alt, delay) {
          )}`;
          img.src = response?.url;
          img.alt = response?.alt;
+         button.disabled = false;
       })
       .catch(() => {
          console.error("Something went wrong");
@@ -30,8 +32,8 @@ async function placeOrder(url, alt, delay) {
    result.append(img);
 }
 
-function orderFood(e) {
-   e.disabled = true;
+function orderFood() {
+   button.disabled = true;
 
    if (burger.checked) {
       placeOrder(
@@ -51,7 +53,10 @@ function orderFood(e) {
          "Drink",
          Math.floor(Math.max(Math.random() * 3000, Math.random() * 3000))
       );
+   } else {
+      button.disabled = false;
+      return;
    }
-
-   e.disabled = false;
 }
+
+button.addEventListener("click", orderFood);
